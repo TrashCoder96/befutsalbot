@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: ${JDBC_URL}
+    username: ${LOGIN}
+    password: ${PASSWORD}
+    driver-class-name: org.postgresql.Driver
+balance:
+  sql_dialect: org.hibernate.dialect.PostgreSQL9Dialect
+admin:
+  login: admin
+  password: admin
+vk:
+  appId: 5927678
+  clientSecret: eMt9l8PyZEEcX6grTawH
+  redirectUrl: https://bifutsalbot.herokuapp.com/
+  authUrl: https://oauth.vk.com/authorize?client_id=5927678&redirect_uri=https://bifutsalbot.herokuapp.com/&group_ids=142686555&scope=photos,messages,docs,manage&v=5.68
