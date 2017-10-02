@@ -19,6 +19,7 @@ import java.util.Properties;
 
 /**
  * Created by itimofeev on 01.10.2017.
+ * geg
  */
 
 @Configuration
