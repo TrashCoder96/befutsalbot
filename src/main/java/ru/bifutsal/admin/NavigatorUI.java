@@ -1,6 +1,8 @@
 package ru.bifutsal.admin;
 
+import ru.bifutsal.admin.vo.service.KeyVoService;
 import ru.bifutsal.aggregator.TelegramAggregator;
+import ru.bifutsal.config.KeyNames;
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
@@ -24,6 +26,9 @@ public class NavigatorUI extends UI {
 	@Autowired
 	private TelegramAggregator telegramAggregator;
 
+	@Autowired
+	private KeyVoService keyVoService;
+
 	private Button saveBotKeyButton = new Button("Принять значение");
 
 	private TextField keyField = new TextField("Поле лучше не оставлять пустым =(");
@@ -35,7 +40,8 @@ public class NavigatorUI extends UI {
 		root.addComponent(new Label("Редактирование настроек бота"));
 		root.addComponents(keyField, saveBotKeyButton);
 		saveBotKeyButton.addClickListener(e -> {
-			telegramAggregator.reloadBot(keyField.getValue());
+			keyVoService.saveOrUpdateKey(KeyNames.TELEGRAMBOTKEY, keyField.getValue());
+			telegramAggregator.reloadBot();
 			update();
 		});
 		keyField.setWidth(700, Unit.PIXELS);

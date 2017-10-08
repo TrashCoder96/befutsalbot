@@ -11,7 +11,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class KeyDto {
+public class KeyDto extends AbstractDto {
 
 	@Id
 	private String name;
