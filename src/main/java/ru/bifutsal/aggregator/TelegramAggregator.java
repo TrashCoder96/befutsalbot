@@ -36,6 +36,9 @@ public class TelegramAggregator {
 
 	@PostConstruct
 	private void postInit() {
+		if (!checkKeyOnExists(KeyNames.TELEGRAMBOTKEY))
+			return;
+
 		bot = TelegramBotAdapter.build(keyRepository.findOne(KeyNames.TELEGRAMBOTKEY).getValue());
 		bot.setUpdatesListener(list -> {
 			list.forEach(update -> {
@@ -54,6 +57,9 @@ public class TelegramAggregator {
 	}
 
 	public String getCurrentKeyValue() {
+		if (!checkKeyOnExists(KeyNames.TELEGRAMBOTKEY))
+			return null;
+
 		return keyRepository.findOne(KeyNames.TELEGRAMBOTKEY).getValue();
 	}
 
@@ -62,6 +68,8 @@ public class TelegramAggregator {
 		SendResponse sendResponse = bot.execute(request);
 	}
 
-
+	private boolean checkKeyOnExists(String keyName){
+		return (keyRepository.findOne(keyName) == null) ? false : true;
+	}
 
 }
