@@ -1,7 +1,10 @@
-package ru.bifutsal.aggregator;
+package ru.bifutsal.aggregator.telegram;
 
+import ru.bifutsal.aggregator.AbstractCustomerInfo;
 import ru.bifutsal.aggregator.telegram.TelegramCommandProcessor;
 import ru.bifutsal.aggregator.telegram.TelegramCustomerInfo;
+import ru.bifutsal.aggregator.telegram.command.TelegramButton;
+import ru.bifutsal.aggregator.telegram.command.TelegramView;
 import ru.bifutsal.config.KeyNames;
 import ru.bifutsal.dao.repository.KeyRepository;
 import com.pengrad.telegrambot.TelegramBot;
@@ -9,7 +12,13 @@ import com.pengrad.telegrambot.TelegramBotAdapter;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ForceReply;
+import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.Keyboard;
+import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ParseMode;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +26,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by itimofeev on 04.10.2017.
@@ -33,6 +43,9 @@ public class TelegramAggregator {
 
 	@Autowired
 	private TelegramCommandProcessor telegramCommandProcessor;
+
+	@Autowired
+	private List<? extends TelegramView> telegramViews;
 
 	@PostConstruct
 	private void postInit() {
@@ -59,17 +72,27 @@ public class TelegramAggregator {
 	public String getCurrentKeyValue() {
 		if (!checkKeyOnExists(KeyNames.TELEGRAMBOTKEY))
 			return null;
-
 		return keyRepository.findOne(KeyNames.TELEGRAMBOTKEY).getValue();
+	}
+
+	public void navigateTo(String customerId, Class<? extends TelegramView> viewClass) {
+		TelegramView telegramView = telegramViews.stream().filter(v -> v.getClass().getSuperclass().equals(viewClass)).findFirst().get();
+		SendMessage request = null;
+		if (telegramView.buildKeyboard() != null) {
+			request = new SendMessage(customerId, telegramView.getText()).replyMarkup(telegramView.buildKeyboard());
+		} else {
+			request = new SendMessage(customerId, telegramView.getText()).replyMarkup(new ReplyKeyboardRemove());
+		}
+		bot.execute(request);
 	}
 
 	public void sendMessage(String customerId, String text) {
 		SendMessage request = new SendMessage(customerId, text);
-		SendResponse sendResponse = bot.execute(request);
+		 bot.execute(request);
 	}
 
 	private boolean checkKeyOnExists(String keyName){
-		return (keyRepository.findOne(keyName) == null) ? false : true;
+		return keyRepository.findOne(keyName) != null;
 	}
 
 }

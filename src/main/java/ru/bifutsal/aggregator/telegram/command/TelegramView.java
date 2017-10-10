@@ -1,18 +1,21 @@
 package ru.bifutsal.aggregator.telegram.command;
 
-import ru.bifutsal.aggregator.TelegramAggregator;
+import ru.bifutsal.aggregator.telegram.TelegramAggregator;
 import ru.bifutsal.aggregator.telegram.TelegramDialogStatusEnum;
 import ru.bifutsal.dao.CustomerDto;
 import ru.bifutsal.dao.repository.CustomerRepository;
+import com.pengrad.telegrambot.model.request.Keyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by itimofeev on 06.10.2017.
  */
-public abstract class TelegramCommand {
+public abstract class TelegramView {
 
 	@Autowired
 	protected TelegramAggregator telegramAggregator;
@@ -20,11 +23,15 @@ public abstract class TelegramCommand {
 	@Autowired
 	protected CustomerRepository customerRepository;
 
-	public abstract String getName();
+	public abstract TelegramDialogStatusEnum getStatus();
 
-	public abstract Map<String, String> check(String command);
+	public abstract String getText();
 
-	public abstract void execute(Map<String, String> parameters);
+	public abstract Keyboard buildKeyboard();
+
+	public abstract boolean check(String commandText);
+
+	public abstract void execute(String customerId, String command);
 
 	@Transactional
 	public void saveStatus(String customerId, TelegramDialogStatusEnum status) {

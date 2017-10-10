@@ -1,7 +1,7 @@
 package ru.bifutsal.admin;
 
 import ru.bifutsal.admin.vo.service.KeyVoService;
-import ru.bifutsal.aggregator.TelegramAggregator;
+import ru.bifutsal.aggregator.telegram.TelegramAggregator;
 import ru.bifutsal.config.KeyNames;
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.annotations.Theme;
