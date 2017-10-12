@@ -7,11 +7,6 @@ import ru.bifutsal.dao.repository.CustomerRepository;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by itimofeev on 06.10.2017.
  */

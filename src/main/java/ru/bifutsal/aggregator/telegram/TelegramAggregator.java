@@ -1,26 +1,15 @@
 package ru.bifutsal.aggregator.telegram;
 
 import ru.bifutsal.aggregator.AbstractCustomerInfo;
-import ru.bifutsal.aggregator.telegram.TelegramCommandProcessor;
-import ru.bifutsal.aggregator.telegram.TelegramCustomerInfo;
-import ru.bifutsal.aggregator.telegram.command.TelegramButton;
 import ru.bifutsal.aggregator.telegram.command.TelegramView;
 import ru.bifutsal.config.KeyNames;
 import ru.bifutsal.dao.repository.KeyRepository;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBotAdapter;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.request.ForceReply;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.model.request.Keyboard;
-import com.pengrad.telegrambot.model.request.KeyboardButton;
-import com.pengrad.telegrambot.model.request.ParseMode;
-import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.SendResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +48,7 @@ public class TelegramAggregator {
 				info.setFirstname(update.message().from().firstName());
 				info.setLastname(update.message().from().lastName());
 				info.setCustomerId(update.message().chat().id().toString());
-				telegramCommandProcessor.acceptCommand(info, update.message().text());
+				telegramCommandProcessor.acceptCommand(info, update.message().text() != null ? update.message().text() : "");
 			});
 			return UpdatesListener.CONFIRMED_UPDATES_ALL;
 		});
