@@ -48,6 +48,7 @@ public class TelegramAggregator {
 				info.setFirstname(update.message().from().firstName());
 				info.setLastname(update.message().from().lastName());
 				info.setCustomerId(update.message().chat().id().toString());
+				TelegramCustomerInfo.setThreadLocalScope((TelegramCustomerInfo) info);
 				telegramCommandProcessor.acceptCommand(info, update.message().text() != null ? update.message().text() : "");
 			});
 			return UpdatesListener.CONFIRMED_UPDATES_ALL;

@@ -13,19 +13,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ru.bifutsal.aggregator.telegram.TelegramCustomerInfo;
+import ru.bifutsal.aggregator.telegram.TelegramCommands;
 /**
- * Created by itimofeev on 08.10.2017.
+ * Created by vsharanin on 15.10.2017.
  */
 @Component
-public class HelloView extends TelegramView {
+public class StartView extends TelegramView {
 
-	private List<KeyboardButton> helloButtons = new ArrayList<>(3);
+	private List<KeyboardButton> startButtons = new ArrayList<>(3);
 
 	@PostConstruct
 	private void post() {
-		helloButtons.add(new KeyboardButton("hello1"));
-		helloButtons.add(new KeyboardButton("hello2"));
-		helloButtons.add(new KeyboardButton("hello3"));
+		startButtons.add(new KeyboardButton(TelegramCommands.TEAM));
+		startButtons.add(new KeyboardButton(TelegramCommands.LIGA));
+		startButtons.add(new KeyboardButton(TelegramCommands.SKIP));
 	}
 
 	@Override
@@ -35,22 +37,22 @@ public class HelloView extends TelegramView {
 
 	@Override
 	public String getText() {
-		return "hello?";
+		return TelegramCustomerInfo.getThreadLocalScope().getFirstname() + ", хотите установить настройки расписания матчей?";
 	}
 
 	@Override
 	public Keyboard buildKeyboard() {
-		return new ReplyKeyboardMarkup(new KeyboardButton[][] { { helloButtons.get(0) }, { helloButtons.get(1) }, { helloButtons.get(2) } })
+		return new ReplyKeyboardMarkup(new KeyboardButton[][] { { startButtons.get(0) }, { startButtons.get(1) }, { startButtons.get(2) } })
 				.selective(true);
 	}
 
 	@Override
 	public boolean check(String commandText) {
-		return commandText.equals("hello1") || commandText.equals("hello2") || commandText.equals("hello3");
+		return commandText.equals(TelegramCommands.START);
 	}
 
 	@Override
 	public void execute(String customerId, String command) {
-		telegramAggregator.navigateTo(customerId, HelloView.class);
+		telegramAggregator.navigateTo(customerId, StartView.class);
 	}
 }

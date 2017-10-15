@@ -7,5 +7,13 @@ import ru.bifutsal.aggregator.AbstractCustomerInfo;
  */
 public class TelegramCustomerInfo extends AbstractCustomerInfo {
 
+	private static final ThreadLocal<TelegramCustomerInfo> threadLocalScope = new ThreadLocal<>();
 
+	public final static TelegramCustomerInfo getThreadLocalScope() {
+		return threadLocalScope.get();
+	}
+
+	public final static void setThreadLocalScope(TelegramCustomerInfo telegramCustomerInfo) {
+		threadLocalScope.set(telegramCustomerInfo);
+	}
 }
