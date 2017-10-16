@@ -37,7 +37,7 @@ public class StartView extends TelegramView {
 
 	@Override
 	public String getText() {
-		return TelegramCustomerInfo.getThreadLocalScope().getFirstname() + ", хотите установить настройки расписания матчей?";
+		return String.format("%s, хотите установить настройки расписания матчей?", TelegramCustomerInfo.getThreadLocalScope().getFirstname());
 	}
 
 	@Override
