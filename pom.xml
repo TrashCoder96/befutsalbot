@@ -25,6 +25,8 @@
 		<java.version>1.8</java.version>
 		<com.vaadin.version>2.0.1</com.vaadin.version>
 		<telegram.bot.version>3.3.0</telegram.bot.version>
+		<com.squareup.okhttp3.okhttp.version>3.9.0</com.squareup.okhttp3.okhttp.version>
+		<com.squareup.retrofit2.converter-jackson.version>2.3.0</com.squareup.retrofit2.converter-jackson.version>
 	</properties>
 
 	<dependencies>
@@ -75,6 +77,16 @@
 			<artifactId>java-telegram-bot-api</artifactId>
 			<version>${telegram.bot.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>${com.squareup.okhttp3.okhttp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-jackson</artifactId>
+			<version>${com.squareup.retrofit2.converter-jackson.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -90,7 +102,9 @@
 				<executions>
 					<execution>
 						<phase>package</phase>
-						<goals><goal>copy</goal></goals>
+						<goals>
+							<goal>copy</goal>
+						</goals>
 						<configuration>
 							<artifactItems>
 								<artifactItem>
