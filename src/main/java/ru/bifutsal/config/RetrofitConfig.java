@@ -1,5 +1,6 @@
 package ru.bifutsal.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.bifutsal.api.ClientTeamService;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -9,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import ru.bifutsal.api.CookieStore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ import java.util.List;
 @Configuration
 public class RetrofitConfig {
 
+	@Autowired
+	private CookieStore cookieStore;
+
 	@Bean
 	public OkHttpClient client() {
 		return new OkHttpClient.Builder()
@@ -27,12 +31,12 @@ public class RetrofitConfig {
 
 					@Override
 					public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-						cookieStore.put(url, cookies);
+						cookieStore.getCookieMap().put(url, cookies);
 					}
 
 					@Override
 					public List<Cookie> loadForRequest(HttpUrl url) {
-						List<Cookie> cookies = cookieStore.get(url);
+						List<Cookie> cookies = cookieStore.getCookieMap().get(url);
 						return cookies != null ? cookies : new ArrayList<Cookie>();
 					}
 				})

@@ -1,6 +1,7 @@
 package ru.bifutsal.rest;
 
 import ru.bifutsal.api.ClientTeamService;
+import ru.bifutsal.api.ro.LoginRequestRo;
 import ru.bifutsal.rest.ro.EmptyResponseRo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,11 @@ public class UpdateTeamsListController {
 
 	@RequestMapping(value = "/updateTeams")
 	public EmptyResponseRo updateTeams() throws IOException {
+		LoginRequestRo loginRequestRo = new LoginRequestRo();
+		loginRequestRo.setPassword("035963b147f3b4b278d6dad324c642c6");
+		loginRequestRo.setUid("telegramid");
+		loginRequestRo.setUsername("telegram");
+		//clientTeamService.login(loginRequestRo).execute();
 		clientTeamService.getTeams().execute();
 		EmptyResponseRo response = new EmptyResponseRo();
 		return response;
