@@ -10,7 +10,9 @@ admin:
   login: admin
   password: admin
 vk:
-  appId: 5927678
-  clientSecret: eMt9l8PyZEEcX6grTawH
-  redirectUrl: https://bifutsalbot.herokuapp.com/
-  authUrl: https://oauth.vk.com/authorize?client_id=5927678&redirect_uri=https://bifutsalbot.herokuapp.com/&group_ids=142686555&scope=photos,messages,docs,manage&v=5.68
+  serviceKey: 575172cf1b4d75c1682146ee1bdc09772e60fe09b2f746ff2125c90f61822fb48d19edeb63be301cfae40
+  confirmationString: c28219b6
+  secretCode: befutsal123
+  group_id: 142686555
+telegram:
+  channelId: befutsal

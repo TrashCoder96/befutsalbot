@@ -11,6 +11,7 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public class TelegramAggregator {
 
 	@Autowired
 	private List<? extends TelegramView> telegramViews;
+
+	@Value("${telegram.channelId}")
+	private String channelId;
 
 	@PostConstruct
 	private void postInit() {
@@ -83,6 +87,11 @@ public class TelegramAggregator {
 
 	private boolean checkKeyOnExists(String keyName){
 		return keyRepository.findOne(keyName) != null;
+	}
+
+	public void sendPostToChannel(String text) {
+		SendMessage request = new SendMessage(channelId, text);
+		bot.execute(request);
 	}
 
 }
