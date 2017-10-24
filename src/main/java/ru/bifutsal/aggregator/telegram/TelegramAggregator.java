@@ -90,7 +90,7 @@ public class TelegramAggregator {
 	}
 
 	public void sendPostToChannel(String text) {
-		SendMessage request = new SendMessage(channelId, text);
+		SendMessage request = new SendMessage("@" + channelId, text);
 		bot.execute(request);
 	}
 
