@@ -2,17 +2,21 @@ package ru.bifutsal.channel.ro;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.List;
+
 /**
  * Created by itimofeev on 24.10.2017.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Post {
+public class PostRo {
 
 	private String id;
 
 	private String owner_id;
 
 	private String text;
+
+	private List<AttachmentRo> attachments;
 
 	public String getOwner_id() {
 		return owner_id;
@@ -36,5 +40,13 @@ public class Post {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public List<AttachmentRo> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(List<AttachmentRo> attachments) {
+		this.attachments = attachments;
 	}
 }

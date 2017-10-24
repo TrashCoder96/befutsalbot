@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+
 /**
  * Created by itimofeev on 24.10.2017.
  */
@@ -28,7 +30,10 @@ public class NewPostController {
 		if (request.getType().equals(EventTypeEnum.CONFIRMATION.value())) {
 			return confirmationString;
 		} else if (request.getType().equals(EventTypeEnum.WALL_POST_NEW.value())) {
-			telegramAggregator.sendPostToChannel(request.getObject().getText());
+			telegramAggregator.sendPostToChannel(
+					request.getObject().getText(),
+					request.getObject().getAttachments().stream()
+							.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList()));
 			return "ok";
 		} else {
 			return "not ok";

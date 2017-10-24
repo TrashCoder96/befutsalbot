@@ -10,6 +10,7 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
 
+import com.pengrad.telegrambot.request.SendPhoto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -89,9 +90,11 @@ public class TelegramAggregator {
 		return keyRepository.findOne(keyName) != null;
 	}
 
-	public void sendPostToChannel(String text) {
-		SendMessage request = new SendMessage("@" + channelId, text);
-		bot.execute(request);
+	public void sendPostToChannel(String text, List<String> imagesUrls) {
+		for (String url: imagesUrls) {
+			SendPhoto sendPhoto = new SendPhoto("@" + channelId, url).caption(text);
+			bot.execute(sendPhoto);
+		}
 	}
 
 }

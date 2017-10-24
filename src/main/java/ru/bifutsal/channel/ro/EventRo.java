@@ -1,13 +1,16 @@
 package ru.bifutsal.channel.ro;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * Created by itimofeev on 24.10.2017.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EventRo {
 
 	protected String type;
 
-	protected Post object;
+	protected PostRo object;
 
 	protected String group_id;
 
@@ -27,11 +30,11 @@ public class EventRo {
 		this.group_id = group_id;
 	}
 
-	public Post getObject() {
+	public PostRo getObject() {
 		return object;
 	}
 
-	public void setObject(Post object) {
+	public void setObject(PostRo object) {
 		this.object = object;
 	}
 }
