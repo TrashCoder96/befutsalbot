@@ -23,7 +23,7 @@ public class NewPostController {
 	@Autowired
 	private TelegramAggregator telegramAggregator;
 
-	@RequestMapping(value = "/receive", method = RequestMethod.GET)
+	@RequestMapping(value = "/receive", method = RequestMethod.POST)
 	public String receive(@RequestBody EventRo request) {
 		if (request.getType().equals(EventTypeEnum.CONFIRMATION.value())) {
 			return confirmationString;
