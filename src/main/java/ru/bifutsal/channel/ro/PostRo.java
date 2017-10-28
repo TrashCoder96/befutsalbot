@@ -1,13 +1,13 @@
 package ru.bifutsal.channel.ro;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
 /**
  * Created by itimofeev on 24.10.2017.
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostRo {
 
 	private String id;
