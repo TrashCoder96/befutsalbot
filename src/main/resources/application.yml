@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bifutsal
     username: postgres
-    password: 123
+    password: root
     driver-class-name: org.postgresql.Driver
 balance:
   sql_dialect: org.hibernate.dialect.PostgreSQL9Dialect
