@@ -1,5 +1,8 @@
 package ru.bifutsal.aggregator.telegram;
 
+import com.pengrad.telegrambot.response.SendResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bifutsal.aggregator.AbstractCustomerInfo;
 import ru.bifutsal.aggregator.telegram.command.TelegramView;
 import ru.bifutsal.config.KeyNames;
@@ -26,6 +29,8 @@ import java.util.List;
 @Component
 @Transactional
 public class TelegramAggregator {
+
+	private static final Logger logger = LoggerFactory.getLogger(TelegramAggregator.class);
 
 	private TelegramBot bot;
 
@@ -83,7 +88,7 @@ public class TelegramAggregator {
 
 	public void sendMessage(String customerId, String text) {
 		SendMessage request = new SendMessage(customerId, text);
-		 bot.execute(request);
+		bot.execute(request);
 	}
 
 	private boolean checkKeyOnExists(String keyName){
@@ -93,11 +98,22 @@ public class TelegramAggregator {
 	public void sendPostToChannel(String text, List<String> imagesUrls) {
 		if (text != null) {
 			SendMessage sendMessage = new SendMessage("@" + channelId, text);
+			SendResponse response = bot.execute(sendMessage);
+			if (response.isOk()) {
+				logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+			} else {
+				logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+			}
 		}
 		if (imagesUrls != null && imagesUrls.size() > 0) {
 			for (String url : imagesUrls) {
 				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url).caption(text);
-				bot.execute(sendPhoto);
+				SendResponse response = bot.execute(sendPhoto);
+				if (response.isOk()) {
+					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+				} else {
+					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+				}
 			}
 		}
 	}
