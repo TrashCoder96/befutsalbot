@@ -2,6 +2,7 @@ package ru.bifutsal.channel.ro;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,6 +44,9 @@ public class PostRo {
 	}
 
 	public List<AttachmentRo> getAttachments() {
+		if (attachments == null) {
+			attachments = new ArrayList<>();
+		}
 		return attachments;
 	}
 
