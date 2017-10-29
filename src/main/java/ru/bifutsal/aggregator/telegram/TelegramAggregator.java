@@ -107,7 +107,7 @@ public class TelegramAggregator {
 		}
 		if (imagesUrls != null && imagesUrls.size() > 0) {
 			for (String url : imagesUrls) {
-				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url).caption(text);
+				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
 				SendResponse response = bot.execute(sendPhoto);
 				if (response.isOk()) {
 					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
