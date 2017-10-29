@@ -91,9 +91,14 @@ public class TelegramAggregator {
 	}
 
 	public void sendPostToChannel(String text, List<String> imagesUrls) {
-		for (String url: imagesUrls) {
-			SendPhoto sendPhoto = new SendPhoto("@" + channelId, url).caption(text);
-			bot.execute(sendPhoto);
+		if (text != null) {
+			SendMessage sendMessage = new SendMessage("@" + channelId, text);
+		}
+		if (imagesUrls != null && imagesUrls.size() > 0) {
+			for (String url : imagesUrls) {
+				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url).caption(text);
+				bot.execute(sendPhoto);
+			}
 		}
 	}
 
