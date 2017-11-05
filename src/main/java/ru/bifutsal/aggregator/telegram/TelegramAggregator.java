@@ -14,6 +14,8 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import com.pengrad.telegrambot.request.SendPhoto;
+import com.pengrad.telegrambot.request.SendVideo;
+import com.pengrad.telegrambot.request.SendAudio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
 /**
  * Created by itimofeev on 04.10.2017.
  */
@@ -95,7 +98,8 @@ public class TelegramAggregator {
 		return keyRepository.findOne(keyName) != null;
 	}
 
-	public void sendPostToChannel(String text, List<String> imagesUrls) {
+	public void sendPostToChannel(String text, Map<String,List<String>> mediaAttachements) {
+		//text
 		if (text != null) {
 			SendMessage sendMessage = new SendMessage("@" + channelId, text);
 			SendResponse response = bot.execute(sendMessage);
@@ -105,14 +109,53 @@ public class TelegramAggregator {
 				logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 			}
 		}
-		if (imagesUrls != null && imagesUrls.size() > 0) {
-			for (String url : imagesUrls) {
+		//images
+		if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
+			for (String url : mediaAttachements.get("imagesUrls")) {
 				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
 				SendResponse response = bot.execute(sendPhoto);
 				if (response.isOk()) {
 					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
 				} else {
 					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+				}
+			}
+		}
+		//audios
+		if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
+			for (String url : mediaAttachements.get("audiosUrls")) {
+				SendAudio sendAudio = new SendAudio("@" + channelId, url);
+				SendResponse response = bot.execute(sendAudio);
+				if (response.isOk()) {
+					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+				} else {
+					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+				}
+			}
+		}
+		//videos
+		if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
+			for (String url : mediaAttachements.get("videosUrls")) {
+				SendVideo sendVideo = new SendVideo("@" + channelId, url);
+				SendResponse response = bot.execute(sendVideo);
+				if (response.isOk()) {
+					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+				} else {
+					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+				}
+			}
+		}
+		//links
+		if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
+			for (String url : mediaAttachements.get("linksUrls")) {
+				if (url != null) {
+					SendMessage sendMessage = new SendMessage("@" + channelId, url);
+					SendResponse response = bot.execute(sendMessage);
+					if (response.isOk()) {
+						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+					} else {
+						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+					}
 				}
 			}
 		}

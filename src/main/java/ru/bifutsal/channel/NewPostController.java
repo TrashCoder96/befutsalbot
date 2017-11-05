@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.stream.Collectors;
 
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * Created by itimofeev on 24.10.2017.
  */
@@ -41,10 +44,24 @@ public class NewPostController {
 		if (request.getType().equals(EventTypeEnum.CONFIRMATION.value())) {
 			return confirmationString;
 		} else if (request.getType().equals(EventTypeEnum.WALL_POST_NEW.value())) {
-			telegramAggregator.sendPostToChannel(
-					request.getObject().getText(),
-					request.getObject().getAttachments().stream()
-							.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList()));
+			//prepare objects
+			Map<String,List<String>> mediaAttachements = new HashMap<String,List<String>>(4);
+
+			List<String> imagesUrls = request.getObject().getAttachments().stream()
+							.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList());
+			List<String> audiosUrls = request.getObject().getAttachments().stream()
+							.map(attachmentRo -> attachmentRo.getAudio().getUrl()).collect(Collectors.toList());
+			List<String> videosUrls = request.getObject().getAttachments().stream()
+							.map(attachmentRo -> attachmentRo.getVideo().getPlayer()).collect(Collectors.toList());
+			List<String> linksUrls = request.getObject().getAttachments().stream()
+							.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
+
+			mediaAttachements.put("imagesUrls",imagesUrls);
+			mediaAttachements.put("audiosUrls",audiosUrls);
+			mediaAttachements.put("videosUrls",videosUrls);
+			mediaAttachements.put("linksUrls",linksUrls);
+
+			telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);
 			logger.info("Корректная обработка, на сервера vk возвращается статус 200 OK");
 			return "ok";
 		} else {

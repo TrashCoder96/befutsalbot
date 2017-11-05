@@ -12,6 +12,12 @@ public class AttachmentRo {
 
 	private PhotoRo photo;
 
+	private AudioRo audio;
+
+	private VideoRo video;
+
+	private LinkRo link;
+
 	public String getType() {
 		return type;
 	}
@@ -26,5 +32,29 @@ public class AttachmentRo {
 
 	public void setPhoto(PhotoRo photo) {
 		this.photo = photo;
+	}
+
+	public AudioRo getAudio() {
+		return audio;
+	}
+
+	public void setAudio(AudioRo audio) {
+		this.audio = audio;
+	}
+
+	public VideoRo getVideo() {
+		return video;
+	}
+
+	public void setVideo(VideoRo video) {
+		this.video = video;
+	}
+
+	public LinkRo getLink() {
+		return link;
+	}
+
+	public void setLink(LinkRo link) {
+		this.link = link;
 	}
 }
