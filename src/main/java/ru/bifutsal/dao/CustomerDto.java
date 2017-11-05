@@ -4,6 +4,7 @@ import ru.bifutsal.aggregator.telegram.TelegramDialogStatusEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
  */
 
 @Entity
+@Table(name = "customers")
 public class CustomerDto extends AbstractDto {
 
 	@Id

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import ru.bifutsal.aggregator.telegram.TelegramCustomerInfo;
-import ru.bifutsal.aggregator.telegram.TelegramCommands;
+import ru.bifutsal.aggregator.telegram.TelegramDialogCommandConstants;
 /**
  * Created by vsharanin on 15.10.2017.
  */
@@ -25,9 +25,9 @@ public class StartView extends TelegramView {
 
 	@PostConstruct
 	private void post() {
-		startButtons.add(new KeyboardButton(TelegramCommands.TEAM));
-		startButtons.add(new KeyboardButton(TelegramCommands.LIGA));
-		startButtons.add(new KeyboardButton(TelegramCommands.SKIP));
+		startButtons.add(new KeyboardButton(TelegramDialogCommandConstants.TEAM));
+		startButtons.add(new KeyboardButton(TelegramDialogCommandConstants.LIGA));
+		startButtons.add(new KeyboardButton(TelegramDialogCommandConstants.SKIP));
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class StartView extends TelegramView {
 	}
 
 	@Override
-	public boolean check(String commandText) {
-		return commandText.equals(TelegramCommands.START);
+	public boolean check(String commandText, TelegramDialogStatusEnum lastCustomerDialogStatus) {
+		return commandText.equals(TelegramDialogCommandConstants.START);
 	}
 
 	@Override

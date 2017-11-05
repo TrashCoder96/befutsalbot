@@ -13,12 +13,12 @@ public class AnalogView extends TelegramView {
 
 	@Override
 	public TelegramDialogStatusEnum getStatus() {
-		return null;
+		return TelegramDialogStatusEnum.UNKNOWN;
 	}
 
 	@Override
 	public String getText() {
-		return "Не знаю такой команды";
+		return "Не знаю такой опции";
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class AnalogView extends TelegramView {
 	}
 
 	@Override
-	public boolean check(String commandText) {
+	public boolean check(String commandText, TelegramDialogStatusEnum lastCustomerDialogStatus) {
 		return false;
 	}
 

@@ -1,7 +1,6 @@
 package ru.bifutsal.aggregator.telegram.command;
 
 import ru.bifutsal.aggregator.telegram.TelegramDialogStatusEnum;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
@@ -9,48 +8,44 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ru.bifutsal.aggregator.telegram.TelegramDialogCommandConstants;
 /**
- * Created by itimofeev on 08.10.2017.
+ * Created by vsharanin on 31.10.2017.
  */
 @Component
-public class HelloView extends TelegramView {
-
-	private List<KeyboardButton> helloButtons = new ArrayList<>(3);
+public class TeamCustomKeybordView extends TelegramView {
 
 	@PostConstruct
 	private void post() {
-		helloButtons.add(new KeyboardButton("hello1"));
-		helloButtons.add(new KeyboardButton("hello2"));
-		helloButtons.add(new KeyboardButton("hello3"));
 	}
 
 	@Override
 	public TelegramDialogStatusEnum getStatus() {
-		return TelegramDialogStatusEnum.HELLO;
+		return TelegramDialogStatusEnum.LISTENING_CUSTOM_KEYBOARD_ON_TEAM;
 	}
 
 	@Override
 	public String getText() {
-		return "hello?";
+		return String.format("Введите название команды, чьи матчи выводить в расписании");
 	}
 
 	@Override
 	public Keyboard buildKeyboard() {
-		return new ReplyKeyboardMarkup(new KeyboardButton[][] { { helloButtons.get(0) }, { helloButtons.get(1) }, { helloButtons.get(2) } })
-				.selective(true);
+		return null;
 	}
 
 	@Override
 	public boolean check(String commandText, TelegramDialogStatusEnum lastCustomerDialogStatus) {
-		return commandText.equals("hello1") || commandText.equals("hello2") || commandText.equals("hello3");
+		return commandText.equals(TelegramDialogCommandConstants.TEAM);
 	}
 
 	@Override
 	public void execute(String customerId, String command) {
-		telegramAggregator.navigateTo(customerId, HelloView.class);
+		telegramAggregator.navigateTo(customerId, TeamCustomKeybordView.class);
 	}
 }
