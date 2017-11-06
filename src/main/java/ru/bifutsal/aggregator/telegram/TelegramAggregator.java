@@ -153,7 +153,7 @@ public class TelegramAggregator {
 			for (String url : mediaAttachements.get("videosUrls")) {
 				try {
 					//SendVideo sendVideo = new SendVideo("@" + channelId, url);
-					SendPhoto sendPhoto = new SendPhoto("@" + channelId, url); //пока можем показать только обложку как фото, player приходит null
+					SendPhoto sendVideo = new SendPhoto("@" + channelId, url); //пока можем показать только обложку как фото, player приходит null
 					SendResponse response = bot.execute(sendVideo);
 					if (response.isOk()) {
 						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
