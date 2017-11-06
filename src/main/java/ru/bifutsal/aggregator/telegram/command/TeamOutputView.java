@@ -15,38 +15,42 @@ import org.slf4j.LoggerFactory;
 
 import ru.bifutsal.aggregator.telegram.TelegramDialogCommandConstants;
 /**
- * Created by vsharanin on 31.10.2017.
+ * Created by vsharanin on 06.11.2017.
  */
 @Component
-public class TeamCustomKeybordView extends TelegramView {
+public class TeamOutputView extends TelegramView {
+
+	private List<KeyboardButton> startButtons = new ArrayList<>(2);
 
 	@PostConstruct
 	private void post() {
+		startButtons.add(new KeyboardButton(TelegramDialogCommandConstants.ADD));
+		startButtons.add(new KeyboardButton(TelegramDialogCommandConstants.NEXT));
 	}
 
 	@Override
 	public TelegramDialogStatusEnum getStatus() {
-		return TelegramDialogStatusEnum.LISTENING_CUSTOM_KEYBOARD_ON_TEAM;
+		return TelegramDialogStatusEnum.LISTENING_KEYBOARD_BUTTON_AFTER_SAVING_TEAM;
 	}
 
 	@Override
 	public String getText() {
-		return String.format("Введите название команды, чьи матчи выводить в расписании");
+		return String.format("Команда  добавлена в список. Хотите добавить еще команды?");
 	}
 
 	@Override
 	public Keyboard buildKeyboard() {
-		return null;
+		return new	ReplyKeyboardMarkup(new KeyboardButton[][] { { startButtons.get(0) }, { startButtons.get(1) } })
+					.selective(true);
 	}
 
 	@Override
 	public boolean check(String commandText, TelegramDialogStatusEnum lastCustomerDialogStatus) {
-		return commandText.equals(TelegramDialogCommandConstants.TEAM)
-				|| (commandText.equals(TelegramDialogCommandConstants.ADD) && lastCustomerDialogStatus.toString().equals(TelegramDialogStatusEnum.LISTENING_KEYBOARD_BUTTON_AFTER_SAVING_TEAM.toString()));
+		return !commandText.equals(TelegramDialogCommandConstants.NEXT) && lastCustomerDialogStatus.toString().equals(TelegramDialogStatusEnum.LISTENING_KEYBOARD_BUTTON_ON_TEAM.toString());
 	}
 
 	@Override
 	public void execute(String customerId, String command) {
-		telegramAggregator.navigateTo(customerId, TeamCustomKeybordView.class);
+		telegramAggregator.navigateTo(customerId, TeamOutputView.class);
 	}
 }

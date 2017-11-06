@@ -15,7 +15,8 @@ public enum TelegramDialogStatusEnum {
 		KEYBOARD_BUTTON - а это наша сгенеренная кнопошная клавиатура для пользователя
 	*/
 	LISTENING_CUSTOM_KEYBOARD_ON_TEAM,
-	LISTENING_KEYBOARD_BUTTON_ON_TEAM;
+	LISTENING_KEYBOARD_BUTTON_ON_TEAM,
+	LISTENING_KEYBOARD_BUTTON_AFTER_SAVING_TEAM;
 	
 
 }
