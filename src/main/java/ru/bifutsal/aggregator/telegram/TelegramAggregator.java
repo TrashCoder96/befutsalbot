@@ -99,58 +99,22 @@ public class TelegramAggregator {
 	}
 
 	public void sendPostToChannel(String text, Map<String,List<String>> mediaAttachements) {
-		//text
-		if (text != null) {
-			SendMessage sendMessage = new SendMessage("@" + channelId, text);
-			SendResponse response = bot.execute(sendMessage);
-			if (response.isOk()) {
-				logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-			} else {
-				logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-			}
-		}
-		//images
-		if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
-			for (String url : mediaAttachements.get("imagesUrls")) {
-				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
-				SendResponse response = bot.execute(sendPhoto);
+		try {
+			//text
+			if (text != null) {
+				SendMessage sendMessage = new SendMessage("@" + channelId, text);
+				SendResponse response = bot.execute(sendMessage);
 				if (response.isOk()) {
 					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
 				} else {
 					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 				}
 			}
-		}
-		//audios
-		if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
-			for (String url : mediaAttachements.get("audiosUrls")) {
-				SendAudio sendAudio = new SendAudio("@" + channelId, url);
-				SendResponse response = bot.execute(sendAudio);
-				if (response.isOk()) {
-					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-				} else {
-					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-				}
-			}
-		}
-		//videos
-		if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
-			for (String url : mediaAttachements.get("videosUrls")) {
-				SendVideo sendVideo = new SendVideo("@" + channelId, url);
-				SendResponse response = bot.execute(sendVideo);
-				if (response.isOk()) {
-					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-				} else {
-					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-				}
-			}
-		}
-		//links
-		if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
-			for (String url : mediaAttachements.get("linksUrls")) {
-				if (url != null) {
-					SendMessage sendMessage = new SendMessage("@" + channelId, url);
-					SendResponse response = bot.execute(sendMessage);
+			//images
+			if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
+				for (String url : mediaAttachements.get("imagesUrls")) {
+					SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
+					SendResponse response = bot.execute(sendPhoto);
 					if (response.isOk()) {
 						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
 					} else {
@@ -158,6 +122,46 @@ public class TelegramAggregator {
 					}
 				}
 			}
+			//audios
+			if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
+				for (String url : mediaAttachements.get("audiosUrls")) {
+					SendAudio sendAudio = new SendAudio("@" + channelId, url);
+					SendResponse response = bot.execute(sendAudio);
+					if (response.isOk()) {
+						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+					} else {
+						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+					}
+				}
+			}
+			//videos
+			if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
+				for (String url : mediaAttachements.get("videosUrls")) {
+					SendVideo sendVideo = new SendVideo("@" + channelId, url);
+					SendResponse response = bot.execute(sendVideo);
+					if (response.isOk()) {
+						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+					} else {
+						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+					}
+				}
+			}
+			//links
+			if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
+				for (String url : mediaAttachements.get("linksUrls")) {
+					if (url != null) {
+						SendMessage sendMessage = new SendMessage("@" + channelId, url);
+						SendResponse response = bot.execute(sendMessage);
+						if (response.isOk()) {
+							logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+						} else {
+							logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+						}
+					}
+				}
+			}
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
 		}
 	}
 

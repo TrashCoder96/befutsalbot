@@ -53,7 +53,7 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList());
 				mediaAttachements.put("imagesUrls",imagesUrls);
 			} catch (Exception ex) {
-				logger.info(ex.getMessage());
+				logger.error(ex.getMessage());
 			}
 
 			//prepare audios
@@ -62,7 +62,7 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getAudio().getUrl()).collect(Collectors.toList());
 				mediaAttachements.put("audiosUrls",audiosUrls);
 			} catch (Exception ex) {
-				logger.info(ex.getMessage());
+				logger.error(ex.getMessage());
 			}
 
 			//prepare videos
@@ -71,7 +71,7 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getVideo().getPlayer()).collect(Collectors.toList());
 				mediaAttachements.put("videosUrls",videosUrls);
 			} catch (Exception ex) {
-				logger.info(ex.getMessage());
+				logger.error(ex.getMessage());
 			}
 
 			//prepare urls
@@ -80,7 +80,7 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
 				mediaAttachements.put("linksUrls",linksUrls);
 			} catch (Exception ex) {
-				logger.info(ex.getMessage());
+				logger.error(ex.getMessage());
 			}
 
 			telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);
