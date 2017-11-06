@@ -53,7 +53,7 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList());
 				mediaAttachements.put("imagesUrls",imagesUrls);
 			} catch (Exception ex) {
-				logger.error(ex.getMessage());
+				logger.error("Error while prepared imagesUrls: "+ex.getMessage());
 			}
 
 			//prepare audios
@@ -62,16 +62,16 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getAudio().getUrl()).collect(Collectors.toList());
 				mediaAttachements.put("audiosUrls",audiosUrls);
 			} catch (Exception ex) {
-				logger.error(ex.getMessage());
+				logger.error("Error while prepared audiosUrls: "+ex.getMessage());
 			}
 
 			//prepare videos
 			try {
 				List<String> videosUrls = request.getObject().getAttachments().stream()
-											.map(attachmentRo -> attachmentRo.getVideo().getPlayer()).collect(Collectors.toList());
+											.map(attachmentRo -> attachmentRo.getVideo().getPhoto_130()).collect(Collectors.toList()); // getPlayer приходит пустым..
 				mediaAttachements.put("videosUrls",videosUrls);
 			} catch (Exception ex) {
-				logger.error(ex.getMessage());
+				logger.error("Error while prepared videosUrls: "+ex.getMessage());
 			}
 
 			//prepare urls
@@ -80,7 +80,7 @@ public class NewPostController {
 											.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
 				mediaAttachements.put("linksUrls",linksUrls);
 			} catch (Exception ex) {
-				logger.error(ex.getMessage());
+				logger.error("Error while prepared linksUrls: "+ex.getMessage());
 			}
 
 			telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);

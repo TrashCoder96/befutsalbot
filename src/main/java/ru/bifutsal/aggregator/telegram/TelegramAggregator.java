@@ -99,9 +99,9 @@ public class TelegramAggregator {
 	}
 
 	public void sendPostToChannel(String text, Map<String,List<String>> mediaAttachements) {
-		try {
-			//text
-			if (text != null) {
+		//text
+		if (text != null) {
+			try {
 				SendMessage sendMessage = new SendMessage("@" + channelId, text);
 				SendResponse response = bot.execute(sendMessage);
 				if (response.isOk()) {
@@ -109,10 +109,15 @@ public class TelegramAggregator {
 				} else {
 					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 				}
+			} catch (Exception ex) {
+				logger.error("Can't send text with error: "+ex.getMessage());
 			}
-			//images
-			if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
-				for (String url : mediaAttachements.get("imagesUrls")) {
+		}
+
+		//images
+		if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
+			for (String url : mediaAttachements.get("imagesUrls")) {
+				try {
 					SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
 					SendResponse response = bot.execute(sendPhoto);
 					if (response.isOk()) {
@@ -120,11 +125,16 @@ public class TelegramAggregator {
 					} else {
 						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 					}
+				} catch (Exception ex) {
+					logger.error("Can't send image with error: "+ex.getMessage());
 				}
 			}
-			//audios
-			if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
-				for (String url : mediaAttachements.get("audiosUrls")) {
+		}
+
+		//audios
+		if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
+			for (String url : mediaAttachements.get("audiosUrls")) {
+				try {
 					SendAudio sendAudio = new SendAudio("@" + channelId, url);
 					SendResponse response = bot.execute(sendAudio);
 					if (response.isOk()) {
@@ -132,11 +142,16 @@ public class TelegramAggregator {
 					} else {
 						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 					}
+				} catch (Exception ex) {
+					logger.error("Can't send audio with error: "+ex.getMessage());
 				}
 			}
-			//videos
-			if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
-				for (String url : mediaAttachements.get("videosUrls")) {
+		}
+
+		//videos
+		if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
+			for (String url : mediaAttachements.get("videosUrls")) {
+				try {
 					SendVideo sendVideo = new SendVideo("@" + channelId, url);
 					SendResponse response = bot.execute(sendVideo);
 					if (response.isOk()) {
@@ -144,12 +159,18 @@ public class TelegramAggregator {
 					} else {
 						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 					}
+				} catch (Exception ex) {
+					logger.error("Can't send video with error: "+ex.getMessage());
 				}
 			}
-			//links
-			if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
-				for (String url : mediaAttachements.get("linksUrls")) {
-					if (url != null) {
+		}
+		
+
+		//links
+		if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
+			for (String url : mediaAttachements.get("linksUrls")) {
+				if (url != null) {
+					try {
 						SendMessage sendMessage = new SendMessage("@" + channelId, url);
 						SendResponse response = bot.execute(sendMessage);
 						if (response.isOk()) {
@@ -157,12 +178,13 @@ public class TelegramAggregator {
 						} else {
 							logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 						}
+					} catch (Exception ex) {
+						logger.error("Can't send link with error: "+ex.getMessage());
 					}
 				}
 			}
-		} catch (Exception ex) {
-			logger.error(ex.getMessage());
 		}
+
 	}
 
 }
