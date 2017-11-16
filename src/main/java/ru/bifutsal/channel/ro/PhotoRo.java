@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PhotoRo {
 
-	private String photo_130;
+	private String photo_807;
 
-	public String getPhoto_130() {
-		return photo_130;
+	public String getPhoto_807() {
+		return photo_807;
 	}
 
-	public void setPhoto_130(String photo_130) {
-		this.photo_130 = photo_130;
+	public void setPhoto_807(String photo_807) {
+		this.photo_807 = photo_807;
 	}
 }

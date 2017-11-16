@@ -51,7 +51,7 @@ public class NewPostController {
 
 			//prepare images
 			List<String> imagesUrls = request.getObject().getAttachments().stream()
-					.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList());
+					.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_807()).collect(Collectors.toList());
 			mediaAttachements.put("imagesUrls",imagesUrls);
 
 			//prepare audios
