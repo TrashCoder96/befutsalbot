@@ -14,7 +14,6 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import com.pengrad.telegrambot.request.SendPhoto;
-import com.pengrad.telegrambot.request.SendVideo;
 import com.pengrad.telegrambot.request.SendAudio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 /**
  * Created by itimofeev on 04.10.2017.
@@ -101,32 +99,24 @@ public class TelegramAggregator {
 	public void sendPostToChannel(String text, Map<String,List<String>> mediaAttachements) {
 		//text
 		if (text != null) {
-			try {
-				SendMessage sendMessage = new SendMessage("@" + channelId, text);
-				SendResponse response = bot.execute(sendMessage);
-				if (response.isOk()) {
-					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-				} else {
-					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-				}
-			} catch (Exception ex) {
-				logger.error("Can't send text with error: "+ex.getMessage());
+			SendMessage sendMessage = new SendMessage("@" + channelId, text);
+			SendResponse response = bot.execute(sendMessage);
+			if (response.isOk()) {
+				logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+			} else {
+				logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 			}
 		}
 
 		//images
 		if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
 			for (String url : mediaAttachements.get("imagesUrls")) {
-				try {
-					SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
-					SendResponse response = bot.execute(sendPhoto);
-					if (response.isOk()) {
-						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-					} else {
-						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-					}
-				} catch (Exception ex) {
-					logger.error("Can't send image with error: "+ex.getMessage());
+				SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
+				SendResponse response = bot.execute(sendPhoto);
+				if (response.isOk()) {
+					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+				} else {
+					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 				}
 			}
 		}
@@ -134,16 +124,12 @@ public class TelegramAggregator {
 		//audios
 		if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
 			for (String url : mediaAttachements.get("audiosUrls")) {
-				try {
-					SendAudio sendAudio = new SendAudio("@" + channelId, url);
-					SendResponse response = bot.execute(sendAudio);
-					if (response.isOk()) {
-						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-					} else {
-						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-					}
-				} catch (Exception ex) {
-					logger.error("Can't send audio with error: "+ex.getMessage());
+				SendAudio sendAudio = new SendAudio("@" + channelId, url);
+				SendResponse response = bot.execute(sendAudio);
+				if (response.isOk()) {
+					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+				} else {
+					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 				}
 			}
 		}
@@ -151,36 +137,27 @@ public class TelegramAggregator {
 		//videos
 		if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
 			for (String url : mediaAttachements.get("videosUrls")) {
-				try {
-					//SendVideo sendVideo = new SendVideo("@" + channelId, url);
-					SendPhoto sendVideo = new SendPhoto("@" + channelId, url); //пока можем показать только обложку как фото, player приходит null
-					SendResponse response = bot.execute(sendVideo);
-					if (response.isOk()) {
-						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-					} else {
-						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-					}
-				} catch (Exception ex) {
-					logger.error("Can't send video with error: "+ex.getMessage());
+				//SendVideo sendVideo = new SendVideo("@" + channelId, url);
+				SendPhoto sendVideo = new SendPhoto("@" + channelId, url); //пока можем показать только обложку как фото, player приходит null
+				SendResponse response = bot.execute(sendVideo);
+				if (response.isOk()) {
+					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+				} else {
+					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 				}
 			}
 		}
-		
 
 		//links
 		if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
 			for (String url : mediaAttachements.get("linksUrls")) {
 				if (url != null) {
-					try {
-						SendMessage sendMessage = new SendMessage("@" + channelId, url);
-						SendResponse response = bot.execute(sendMessage);
-						if (response.isOk()) {
-							logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-						} else {
-							logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
-						}
-					} catch (Exception ex) {
-						logger.error("Can't send link with error: "+ex.getMessage());
+					SendMessage sendMessage = new SendMessage("@" + channelId, url);
+					SendResponse response = bot.execute(sendMessage);
+					if (response.isOk()) {
+						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+					} else {
+						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 					}
 				}
 			}

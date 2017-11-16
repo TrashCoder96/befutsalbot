@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectFactory;
 import ru.bifutsal.aggregator.telegram.TelegramAggregator;
 import ru.bifutsal.channel.ro.EventRo;
 import ru.bifutsal.channel.ro.EventTypeEnum;
@@ -40,50 +39,38 @@ public class NewPostController {
 
 	@RequestMapping(value = "/receive", method = RequestMethod.POST)
 	public String receive(@RequestBody EventRo request) throws JsonProcessingException {
+
 		logger.info(String.format("Поступило событие с Callback API: %s", objectMapper.writeValueAsString(request)));
+
 		if (request.getType().equals(EventTypeEnum.CONFIRMATION.value())) {
 			return confirmationString;
 		} else if (request.getType().equals(EventTypeEnum.WALL_POST_NEW.value())) {
+			//отправляем пост в канал, только если
 
 			Map<String,List<String>> mediaAttachements = new HashMap<String,List<String>>(4);
 
 			//prepare images
-			try {
-				List<String> imagesUrls = request.getObject().getAttachments().stream()
-											.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList());
-				mediaAttachements.put("imagesUrls",imagesUrls);
-			} catch (Exception ex) {
-				logger.error("Error while prepared imagesUrls: "+ex.getMessage());
-			}
+			List<String> imagesUrls = request.getObject().getAttachments().stream()
+					.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_130()).collect(Collectors.toList());
+			mediaAttachements.put("imagesUrls",imagesUrls);
 
 			//prepare audios
-			try {
-				List<String> audiosUrls = request.getObject().getAttachments().stream()
-											.map(attachmentRo -> attachmentRo.getAudio().getUrl()).collect(Collectors.toList());
-				mediaAttachements.put("audiosUrls",audiosUrls);
-			} catch (Exception ex) {
-				logger.error("Error while prepared audiosUrls: "+ex.getMessage());
-			}
+			List<String> audiosUrls = request.getObject().getAttachments().stream()
+					.map(attachmentRo -> attachmentRo.getAudio().getUrl()).collect(Collectors.toList());
+			mediaAttachements.put("audiosUrls", audiosUrls);
 
 			//prepare videos
-			try {
-				List<String> videosUrls = request.getObject().getAttachments().stream()
-											.map(attachmentRo -> attachmentRo.getVideo().getPhoto_130()).collect(Collectors.toList()); // getPlayer приходит пустым..
-				mediaAttachements.put("videosUrls",videosUrls);
-			} catch (Exception ex) {
-				logger.error("Error while prepared videosUrls: "+ex.getMessage());
-			}
+			List<String> videosUrls = request.getObject().getAttachments().stream()
+					.map(attachmentRo -> attachmentRo.getVideo().getPhoto_130()).collect(Collectors.toList()); // getPlayer приходит пустым..
+			mediaAttachements.put("videosUrls",videosUrls);
 
 			//prepare urls
-			try {
-				List<String> linksUrls = request.getObject().getAttachments().stream()
-											.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
-				mediaAttachements.put("linksUrls",linksUrls);
-			} catch (Exception ex) {
-				logger.error("Error while prepared linksUrls: "+ex.getMessage());
-			}
+			List<String> linksUrls = request.getObject().getAttachments().stream()
+					.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
+			mediaAttachements.put("linksUrls",linksUrls);
 
 			telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);
+
 			logger.info("Корректная обработка, на сервера vk возвращается статус 200 OK");
 			return "ok";
 		} else {
