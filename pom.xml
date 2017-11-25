@@ -25,6 +25,7 @@
 		<java.version>1.8</java.version>
 		<com.vaadin.version>2.0.1</com.vaadin.version>
 		<telegram.bot.version>3.3.0</telegram.bot.version>
+		<com.squareup.retrofit2.retrofit>2.3.0</com.squareup.retrofit2.retrofit>
 	</properties>
 
 	<dependencies>
@@ -32,34 +33,28 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.vk.api</groupId>
 			<artifactId>sdk</artifactId>
 			<version>${vk.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot-starter</artifactId>
 			<version>${com.vaadin.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -74,6 +69,16 @@
 			<groupId>com.github.pengrad</groupId>
 			<artifactId>java-telegram-bot-api</artifactId>
 			<version>${telegram.bot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>retrofit</artifactId>
+			<version>${com.squareup.retrofit2.retrofit}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-jackson</artifactId>
+			<version>${com.squareup.retrofit2.retrofit}</version>
 		</dependency>
 	</dependencies>
 

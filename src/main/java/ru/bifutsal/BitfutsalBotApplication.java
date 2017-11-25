@@ -9,4 +9,5 @@ public class BitfutsalBotApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BitfutsalBotApplication.class, args);
 	}
+
 }

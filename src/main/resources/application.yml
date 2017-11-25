@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bifutsal
+    url: jdbc:postgresql://localhost:5432/befutsal
     username: postgres
-    password: root
+    password: 123
     driver-class-name: org.postgresql.Driver
 balance:
   sql_dialect: org.hibernate.dialect.PostgreSQL9Dialect
