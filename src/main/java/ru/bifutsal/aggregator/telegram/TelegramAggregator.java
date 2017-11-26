@@ -16,6 +16,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.request.SendVideo;
 import com.pengrad.telegrambot.request.SendAudio;
+import com.pengrad.telegrambot.request.SendDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -98,7 +99,7 @@ public class TelegramAggregator {
 		return keyRepository.findOne(keyName) != null;
 	}
 
-	public void sendPostToChannel(String text, Map<String,List<String>> mediaAttachements) {
+	public void sendPostToChannel(String text, Map<String,List<Object>> mediaAttachements) {
 		//text
 		if (text != null) {
 			try {
@@ -116,9 +117,9 @@ public class TelegramAggregator {
 
 		//images
 		if (mediaAttachements.get("imagesUrls") != null && mediaAttachements.get("imagesUrls").size() > 0) {
-			for (String url : mediaAttachements.get("imagesUrls")) {
+			for (Object url : mediaAttachements.get("imagesUrls")) {
 				try {
-					SendPhoto sendPhoto = new SendPhoto("@" + channelId, url);
+					SendPhoto sendPhoto = new SendPhoto("@" + channelId, (String) url);
 					SendResponse response = bot.execute(sendPhoto);
 					if (response.isOk()) {
 						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
@@ -133,9 +134,9 @@ public class TelegramAggregator {
 
 		//audios
 		if (mediaAttachements.get("audiosUrls") != null && mediaAttachements.get("audiosUrls").size() > 0) {
-			for (String url : mediaAttachements.get("audiosUrls")) {
+			for (Object url : mediaAttachements.get("audiosUrls")) {
 				try {
-					SendAudio sendAudio = new SendAudio("@" + channelId, url);
+					SendAudio sendAudio = new SendAudio("@" + channelId, (String) url);
 					SendResponse response = bot.execute(sendAudio);
 					if (response.isOk()) {
 						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
@@ -150,10 +151,10 @@ public class TelegramAggregator {
 
 		//videos
 		if (mediaAttachements.get("videosUrls") != null && mediaAttachements.get("videosUrls").size() > 0) {
-			for (String url : mediaAttachements.get("videosUrls")) {
+			for (Object url : mediaAttachements.get("videosUrls")) {
 				try {
 					//SendVideo sendVideo = new SendVideo("@" + channelId, url);
-					SendPhoto sendVideo = new SendPhoto("@" + channelId, url); //пока можем показать только обложку как фото, player приходит null
+					SendPhoto sendVideo = new SendPhoto("@" + channelId, (String) url); //пока можем показать только обложку как фото, player приходит null
 					SendResponse response = bot.execute(sendVideo);
 					if (response.isOk()) {
 						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
@@ -169,10 +170,30 @@ public class TelegramAggregator {
 
 		//links
 		if (mediaAttachements.get("linksUrls") != null && mediaAttachements.get("linksUrls").size() > 0) {
-			for (String url : mediaAttachements.get("linksUrls")) {
+			for (Object url : mediaAttachements.get("linksUrls")) {
 				if (url != null) {
 					try {
-						SendMessage sendMessage = new SendMessage("@" + channelId, url);
+						SendMessage sendMessage = new SendMessage("@" + channelId, (String) url);
+						SendResponse response = bot.execute(sendMessage);
+						if (response.isOk()) {
+							logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+						} else {
+							logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+						}
+					} catch (Exception ex) {
+						logger.error("Can't send link with error: "+ex.getMessage());
+					}
+				}
+			}
+		}
+
+		//docs
+		if (mediaAttachements.get("docs") != null && mediaAttachements.get("docs").size() > 0) {
+			for (Object obj : mediaAttachements.get("docs")) {
+				if (obj != null) {
+					try {
+						ru.bifutsal.channel.ro.DocRo doc = (ru.bifutsal.channel.ro.DocRo) obj;
+						SendDocument sendMessage = new SendDocument("@" + channelId, doc.getUrl());
 						SendResponse response = bot.execute(sendMessage);
 						if (response.isOk()) {
 							logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
