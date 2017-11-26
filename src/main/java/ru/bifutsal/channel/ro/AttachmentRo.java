@@ -18,8 +18,6 @@ public class AttachmentRo {
 
 	private LinkRo link;
 
-	private DocRo doc;
-
 	public String getType() {
 		return type;
 	}
@@ -58,13 +56,5 @@ public class AttachmentRo {
 
 	public void setLink(LinkRo link) {
 		this.link = link;
-	}
-
-	public DocRo getDoc() {
-		return doc;
-	}
-
-	public void setDoc(DocRo doc) {
-		this.doc = doc;
 	}
 }

@@ -47,32 +47,27 @@ public class NewPostController {
 		} else if (request.getType().equals(EventTypeEnum.WALL_POST_NEW.value())) {
 			//отправляем пост в канал, только если
 
-			Map<String,List<Object>> mediaAttachements = new HashMap<String,List<Object>>(4);
+			Map<String,List<String>> mediaAttachements = new HashMap<String,List<String>>(4);
 
 			//prepare images
-			List<Object> imagesUrls = request.getObject().getAttachments().stream()
+			List<String> imagesUrls = request.getObject().getAttachments().stream()
 					.map(attachmentRo -> attachmentRo.getPhoto().getPhoto_807()).collect(Collectors.toList());
 			mediaAttachements.put("imagesUrls",imagesUrls);
 
 			//prepare audios
-			List<Object> audiosUrls = request.getObject().getAttachments().stream()
+			List<String> audiosUrls = request.getObject().getAttachments().stream()
 					.map(attachmentRo -> attachmentRo.getAudio().getUrl()).collect(Collectors.toList());
 			mediaAttachements.put("audiosUrls", audiosUrls);
 
 			//prepare videos
-			List<Object> videosUrls = request.getObject().getAttachments().stream()
+			List<String> videosUrls = request.getObject().getAttachments().stream()
 					.map(attachmentRo -> attachmentRo.getVideo().getPhoto_130()).collect(Collectors.toList()); // getPlayer приходит пустым..
 			mediaAttachements.put("videosUrls",videosUrls);
 
 			//prepare urls
-			List<Object> linksUrls = request.getObject().getAttachments().stream()
+			List<String> linksUrls = request.getObject().getAttachments().stream()
 					.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
 			mediaAttachements.put("linksUrls",linksUrls);
-
-			//prepare docs
-			List<Object> docs = request.getObject().getAttachments().stream()
-					.map(attachmentRo -> attachmentRo.getDoc().getUrl()).collect(Collectors.toList());
-			mediaAttachements.put("docs",docs);
 
 			telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);
 
