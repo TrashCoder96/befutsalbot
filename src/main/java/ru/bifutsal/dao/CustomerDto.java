@@ -34,6 +34,9 @@ public class CustomerDto extends AbstractDto {
 	@ElementCollection
 	private List<Integer> teams;
 
+	@Column
+	private Integer currentPage;
+
 	public Long getId() {
 		return id;
 	}
@@ -64,5 +67,13 @@ public class CustomerDto extends AbstractDto {
 
 	public void setTeams(List<Integer> teams) {
 		this.teams = teams;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
 	}
 }

@@ -10,7 +10,9 @@ public class TelegramDialogCommandConstants {
 
 	// а дальше то что приходит с кастомной клавиатуры у нас считается либо cmd либо текстом (различаем по TelegramDialogStatusEnum)
 	public static final String TEAM = "Команда";
+	public static final String TEAM_LIST = "Команды";
 	public static final String LIGA = "Лига";
+	public static final String LIGA_LIST = "Лиги";
 	public static final String TIME = "Время уведомления";
 	public static final String COMPETITOR = "Турнир";
 	public static final String LIGA_AND_ZONE = "Лига и зона";

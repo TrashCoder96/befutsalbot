@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.bifutsal.aggregator.AbstractCustomerInfo;
-import ru.bifutsal.aggregator.telegram.command.TelegramView;
+//import ru.bifutsal.aggregator.telegram.command.TelegramView;
 import ru.bifutsal.config.KeyNames;
 import ru.bifutsal.dao.repository.KeyRepository;
 import com.pengrad.telegrambot.TelegramBot;
@@ -14,7 +14,6 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import com.pengrad.telegrambot.request.SendPhoto;
-import com.pengrad.telegrambot.request.SendVideo;
 import com.pengrad.telegrambot.request.SendAudio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 /**
  * Created by itimofeev on 04.10.2017.
@@ -33,7 +31,7 @@ import java.util.Map;
 @Transactional
 public class TelegramAggregator {
 
-	private static final Logger logger = LoggerFactory.getLogger(TelegramAggregator.class);
+	/*private static final Logger logger = LoggerFactory.getLogger(TelegramAggregator.class);
 
 	private TelegramBot bot;
 
@@ -41,7 +39,7 @@ public class TelegramAggregator {
 	private KeyRepository keyRepository;
 
 	@Autowired
-	private TelegramCommandProcessor telegramCommandProcessor;
+	private TelegramViewProcessor telegramViewProcessor;
 
 	@Autowired
 	private List<? extends TelegramView> telegramViews;
@@ -62,14 +60,10 @@ public class TelegramAggregator {
 				info.setLastname(update.message().from().lastName());
 				info.setCustomerId(update.message().chat().id().toString());
 				TelegramCustomerInfo.setThreadLocalScope((TelegramCustomerInfo) info);
-				telegramCommandProcessor.acceptCommand(info, update.message().text() != null ? update.message().text() : "");
+				telegramViewProcessor.acceptCommand(info, update.message().text() != null ? update.message().text() : "");
 			});
 			return UpdatesListener.CONFIRMED_UPDATES_ALL;
 		});
-	}
-
-	public void reloadBot() {
-		postInit();
 	}
 
 	public String getCurrentKeyValue() {
@@ -186,6 +180,6 @@ public class TelegramAggregator {
 			}
 		}
 
-	}
+	}*/
 
 }

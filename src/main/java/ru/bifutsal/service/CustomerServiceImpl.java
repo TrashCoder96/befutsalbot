@@ -32,8 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		customerDto.setDialogStatus(status);
 		logger.info(String.format("Try set dialog status '%s' for customer with id '%s'", status, customerId));
-
-		customerRepository.save(customerDto);
 	}
 
 	@Override

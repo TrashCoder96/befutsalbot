@@ -69,7 +69,7 @@ public class NewPostController {
 					.map(attachmentRo -> attachmentRo.getLink().getUrl()).collect(Collectors.toList());
 			mediaAttachements.put("linksUrls",linksUrls);
 
-			telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);
+			//telegramAggregator.sendPostToChannel(request.getObject().getText(), mediaAttachements);
 
 			logger.info("Корректная обработка, на сервера vk возвращается статус 200 OK");
 			return "ok";
