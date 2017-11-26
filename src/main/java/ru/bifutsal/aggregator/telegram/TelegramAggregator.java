@@ -102,15 +102,21 @@ public class TelegramAggregator {
 	public void sendPostToChannel(String text, Map<String,List<Object>> mediaAttachements) {
 		//text
 		if (text != null) {
-			
+			try {
 				SendMessage sendMessage = new SendMessage("@" + channelId, text);
-				SendResponse response = bot.execute(sendMessage);
-				if (response.isOk()) {
-					logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
-				} else {
-					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+				try {
+					SendResponse response = bot.execute(sendMessage);
+					if (response.isOk()) {
+						logger.info(String.format("Успешная отправка сообщения. Код: %s. %s", response.errorCode(), response.description()));
+					} else {
+						logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
+					}
+				} catch (Exception ex) {
+					logger.error(String.format("Can't send text '%s' to channel '%s' with error: %s", text, channelId, ex.getMessage()));
 				}
-			
+			} catch (Exception ex) {
+				logger.error(String.format("Can't prepare text '%s' to channel '%s' with error: %s", text, channelId, ex.getMessage()));
+			}
 		}
 
 		//images
