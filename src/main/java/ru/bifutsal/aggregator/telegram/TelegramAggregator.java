@@ -111,7 +111,7 @@ public class TelegramAggregator {
 					logger.error(String.format("Код ошибки: %s. %s", response.errorCode(), response.description()));
 				}
 			} catch (Exception ex) {
-				logger.error("Can't send text with error: "+ex.getMessage());
+				logger.error(String.format("Can't send text '%s' to channel '%s' with error: %s", text, channelId, ex.getMessage()));
 			}
 		}
 
