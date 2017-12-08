@@ -16,3 +16,4 @@ vk:
   group_id: ${VK_GROUP_ID}
 telegram:
   channelId: ${TELEGRAM_CHANNEL_ID}
+  key: ${TELEGRAM_BOT_KEY}
