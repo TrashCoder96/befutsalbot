@@ -3,9 +3,9 @@ spring:
     url: ${JDBC_URL}
     username: ${LOGIN}
     password: ${PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: ${JDBC_DRIVER}
 balance:
-  sql_dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  sql_dialect: ${DIALECT}
 admin:
   login: admin
   password: admin

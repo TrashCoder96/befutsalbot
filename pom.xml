@@ -25,6 +25,7 @@
 		<java.version>1.8</java.version>
 		<telegram.bot.version>3.3.0</telegram.bot.version>
 		<com.squareup.retrofit2.retrofit>2.3.0</com.squareup.retrofit2.retrofit>
+		<org.quartz-scheduler.quartz.version>2.2.1</org.quartz-scheduler.quartz.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +75,12 @@
 			<artifactId>converter-jackson</artifactId>
 			<version>${com.squareup.retrofit2.retrofit}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${org.quartz-scheduler.quartz.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
